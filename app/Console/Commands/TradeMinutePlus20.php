@@ -33,6 +33,7 @@ class TradeMinutePlus20 extends Command
      */
     public function handle()
     {
+        sleep(20);
         // LISTE DES TRADERS EN BDD
         $traders = Trader::all();
         foreach ($traders as $trader) {
