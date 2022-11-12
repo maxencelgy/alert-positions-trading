@@ -133,28 +133,33 @@ class TradeMinutePlus30 extends Command
             // COMPARER LES POSITIONS EN BDD AVEC LES POSITIONS DU TRADER EN COURS POUR VOIR SI IL Y A DES POSITIONS QUI ONT ETE FERMEE
             // VARIABLE POSITIONS EN BDD DU TRADER EN COURS
             $positionsEnBdd = Positions::where('trader_id', $trader->id)->get();
+            $positionBinanceBdd = null;
             // SI LE TRADER A DES POSITIONS EN BDD
             if ($positionsEnBdd->isNotEmpty()) {
                 // ENSUITE ON PARCOURS TOUTES LES POSITIONS BINANCE DU TRADER EN COURS SI IL Y EN A
-                if (!empty($positionsBinance)){
+                if (!empty($positionsBinance)) {
                     foreach ($positionsBinance as $positionBinance) {
                         // VARIABLE POUR TROUVER LA POSITION EN BDD
-                        $positionBinanceBdd = Positions::where('symbol', $positionBinance['symbol'])->where('updateTime', $positionBinance['updateTime'][0] . '/' . $positionBinance['updateTime'][1] . '/' . $positionBinance['updateTime'][2] . ' ' . $positionBinance['updateTime'][3] . ':' . $positionBinance['updateTime'][4] . ':' . $positionBinance['updateTime'][5])->first();
-                        // SI LA VARIABLE N'EST PAS VIDE, C'EST QUE LA POSITION EXISTE EN BDD ET SUR LE SITE BINANCE DONC ON MET EXISTE A TRUE
-                        if (!empty($positionBinanceBdd)) {
-                            $positionBinanceBdd->update([
-                                'existe' => 1,
-                            ]);
+                        $posProbable = Positions::where('symbol', $positionBinance['symbol'])->where('updateTime', $positionBinance['updateTime'][0] . '/' . $positionBinance['updateTime'][1] . '/' . $positionBinance['updateTime'][2] . ' ' . $positionBinance['updateTime'][3] . ':' . $positionBinance['updateTime'][4] . ':' . $positionBinance['updateTime'][5])->first();
+                        if (isset($posProbable)) {
+                            $positionBinanceBdd = $posProbable;
+                        } else {
+                            $positionBinanceBdd = null;
                         }
                     }
-                }else {
-                    // ON PARCOURS TOUTES LES POSITIONS EN BDD DU TRADER EN COURS ET ON MET EXISTE A FALSE
-                    foreach ($positionsEnBdd as $position) {
+                }
+                foreach ($positionsEnBdd as $position) {
+                    if ($positionBinanceBdd != null) {
+                        $positionBinanceBdd->update([
+                            'existe' => 1,
+                        ]);
+                    } else {
                         $position->update([
                             'existe' => 0,
                         ]);
                     }
                 }
+
                 // ON REPARCOURS LES POSITIONS DU TRADER EN BDD
                 foreach ($positionsEnBdd as $position) {
                     // SI LA POSITION EXISTE PAS EN BDD LE TRADE EST FERME
@@ -183,6 +188,5 @@ class TradeMinutePlus30 extends Command
                 }
             }
         }
-
     }
 }
