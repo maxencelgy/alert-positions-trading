@@ -1,0 +1,60 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Nov 12, 2022 at 01:03 PM
+-- Server version: 5.7.36
+-- PHP Version: 8.0.13
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `cryptobot`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `traders`
+--
+
+DROP TABLE IF EXISTS `traders`;
+CREATE TABLE IF NOT EXISTS `traders` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nbr_trades` bigint(20) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `traders`
+--
+
+INSERT INTO `traders` (`id`, `name`, `uid`, `nbr_trades`, `created_at`, `updated_at`) VALUES
+(1, 'A2Stakes', 'D64DDD2177FA081E3F361F70C703A562', 7, '2022-11-05 16:26:31', '2022-11-05 16:26:31'),
+(2, 'Anonymous User-29e293', 'ECCA7DC4F94AA8C37D6DA819397A93A9', 2, '2022-11-05 16:26:32', '2022-11-05 16:26:32'),
+(3, 'Anonymous User-4eb68', '91CDA0C27F7A387F7FDA5D0CA4781194', 0, '2022-11-05 16:26:33', '2022-11-05 16:26:33'),
+(4, 'BCW', 'FFEDA67C7194EB6C57E2B4445E838AC9', 1, '2022-11-05 16:26:34', '2022-11-05 16:26:34'),
+(5, 'Anonymous User-77fd01', 'B7AD1F58CD810F805C09337D34DD3D2E', 0, '2022-11-05 16:26:35', '2022-11-05 16:26:35'),
+(6, 'Anonymous User-eff33', '49A7275656A7ABF56830126ACC619FEB', 0, '2022-11-05 16:26:36', '2022-11-05 16:26:36'),
+(7, 'TreeOfAlpha1', 'FB23E1A8B7E2944FAAEC6219BBDF8243', 0, '2022-11-05 16:26:37', '2022-11-05 16:26:37'),
+(8, 'snowball_kyd', 'D2EE8B6D70AAC0181B6D0AB857D6EF60', 0, '2022-11-05 16:26:38', '2022-11-05 16:26:38'),
+(9, '\nRavensky-Ciel', '20D6A8AE696C8BB969B67BE3ACA6C02A', 1, '2022-11-05 16:26:39', '2022-11-05 16:26:39'),
+(11, 'Nothingness', '8D27A8FA0C0A726CF01A7D11E0095577', NULL, NULL, NULL);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
