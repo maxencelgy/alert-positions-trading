@@ -79,9 +79,8 @@ class TradeMinutePlus50 extends Command
  ' . $emoji . ' Trade: ' . $type . '
 
  📈Prix d\'entrée: ' . $position['entryPrice'] . '
- 💰Levier: x' . $position['leverage'] . '
+ 💰Levier: x' . $position['leverage'] . ''
 
- Trade : https://www.bybit.com/trade/usdt/'.$position['symbol'].''
                             ));
                         // CREER LA POSITION EN BDD
                         Positions::create([
