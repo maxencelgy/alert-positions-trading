@@ -34,6 +34,7 @@ class TradeMinutePlus10 extends Command
     public function handle()
     {
         sleep(10);
+
         // LISTE DES TRADERS EN BDD
         $traders = Trader::all();
         foreach ($traders as $trader) {
@@ -61,6 +62,68 @@ class TradeMinutePlus10 extends Command
                         ]);
                     } else {
                         // LA VARIABLE EST VIDE ALORS IL FAUT CREER LA POSITION EN BDD
+                        // ON VERIFIE SI LA POSITION EXISTE DEJA EN BDD
+                        if(count(Positions::where('symbol', $position['symbol'])->where('trader_id', $trader->id)->get()) > 1 ) {
+                            $positionExistant = Positions::where('symbol', $position['symbol'])->where('trader_id', $trader->id)->first();
+                            // LE AMOUNT DE SA PREMIERE POSITION
+                            $amount = $positionExistant->amount;
+
+                            // CALCUL DE LA DIFFERENCE ENTRE LES DEUX AMOUNTS EN POURCENT
+                            $differencePourcent =  100 * $position['amount'] / $amount;
+
+
+                            // ON VERIFIE SI LE TRADE EST UN SHORT OU LONG
+                            if ($position['amount'] < 0) {
+                                $type = 'short';
+                                $emoji = '🔴';
+                            } else {
+                                $type = 'long';
+                                $emoji = '🟢';
+                            }
+                            // SI AMOUNT DE LA NOUVELLE POSITION EST SUPERIEUR A CELLE DE LA PRECEDENT
+                            if ($position['amount'] > $amount) {
+                                // LE TRADER A RAJOUTER DU CAPITAL
+                                // ENVOYER UNE NOTIFICATION TELEGRAM TRADER A RAJOUTER DU CAPITAL
+                                Notification::route('telegram', '-801413501')
+                                    ->notify(new SendNotification(
+                                        '🚨Update du trade RAJOUTE DE L\'ARGENT🚨
+ RAJOUTE : ' . $differencePourcent . '%
+ 👑Trader: ' . Trader::where('uid', $trader->uid)->first()->name . '
+ 🚀Crypto: ' . $position['symbol'] . '
+ ' . $emoji . ' Trade: ' . $type . ''
+                                    ));
+                            } else {
+                                // LE TRADER A PRIS UN STOP LOSS OU UN TAKE PROFIT
+                                // ENVOYER UNE NOTIFICATION TELEGRAM TRADER A PRIS UN STOP LOSS OU UN TAKE PROFIT
+                                Notification::route('telegram', '-801413501')
+                                    ->notify(new SendNotification(
+                                        '🚨Update du trade RETIRE DE L\'ARGENT🚨
+ TP OU SL DE: ' . $differencePourcent . '%
+
+ 👑Trader: ' . Trader::where('uid', $trader->uid)->first()->name . '
+ 🚀Crypto: ' . $position['symbol'] . '
+ ' . $emoji . ' Trade: ' . $type . ''
+                                    ));
+                            }
+                            // CREER LA POSITION EN BDD
+                            // ON DELETE L'ANCIENNE POSITION
+                            $positionExistant->delete();
+                            // ON CREE LA NOUVELLE POSITION
+                            Positions::create([
+                                'symbol' => $position['symbol'],
+                                'trader_id' => Trader::where('uid', $trader->uid)->first()->id,
+                                'entryPrice' => $position['entryPrice'],
+                                'markPrice' => $position['markPrice'],
+                                'type' => $type,
+                                'roe' => $position['roe'],
+                                'leverage' => $position['leverage'],
+                                'amount' => $position['amount'],
+                                'yellow' => $position['yellow'],
+                                'existe' => 1,
+                                'updateTime' => $position['updateTime'][0] . '/' . $position['updateTime'][1] . '/' . $position['updateTime'][2] . ' ' . $position['updateTime'][3] . ':' . $position['updateTime'][4] . ':' . $position['updateTime'][5],
+                            ]);
+                        }
+
                         // ON VERIFIE SI LE TRADE EST UN SHORT OU LONG
                         if ($position['amount'] < 0) {
                             $type = 'short';
