@@ -33,6 +33,8 @@ class TradeMinute extends Command
     public function handle()
     {
         // LISTE DES TRADERS EN BDD
+
+        // LISTE DES TRADERS EN BDD
         $traders = Trader::all();
         foreach ($traders as $trader) {
             //RECUP LES POSITIONS DU TRADER EN COURS
@@ -119,20 +121,19 @@ class TradeMinute extends Command
                                 'existe' => 1,
                                 'updateTime' => $position['updateTime'][0] . '/' . $position['updateTime'][1] . '/' . $position['updateTime'][2] . ' ' . $position['updateTime'][3] . ':' . $position['updateTime'][4] . ':' . $position['updateTime'][5],
                             ]);
-                        }
-
-                        // ON VERIFIE SI LE TRADE EST UN SHORT OU LONG
-                        if ($position['amount'] < 0) {
-                            $type = 'short';
-                            $emoji = '🔴';
-                        } else {
-                            $type = 'long';
-                            $emoji = '🟢';
-                        }
-                        // ENVOYER UNE NOTIFICATION TELEGRAM NOUVEAU TRADE DETECTE
-                        Notification::route('telegram', '-801413501')
-                            ->notify(new SendNotification(
-                                '🚨Nouveau trade détecté!
+                        }else {
+                            // ON VERIFIE SI LE TRADE EST UN SHORT OU LONG
+                            if ($position['amount'] < 0) {
+                                $type = 'short';
+                                $emoji = '🔴';
+                            } else {
+                                $type = 'long';
+                                $emoji = '🟢';
+                            }
+                            // ENVOYER UNE NOTIFICATION TELEGRAM NOUVEAU TRADE DETECTE
+                            Notification::route('telegram', '-801413501')
+                                ->notify(new SendNotification(
+                                    '🚨Nouveau trade détecté!
 
  👑Trader: ' . Trader::where('uid', $trader->uid)->first()->name . '
  🚀Crypto: ' . $position['symbol'] . '
@@ -141,21 +142,22 @@ class TradeMinute extends Command
  📈Prix d\'entrée: ' . $position['entryPrice'] . '
  💰Levier: x' . $position['leverage'] . ''
 
-                            ));
-                        // CREER LA POSITION EN BDD
-                        Positions::create([
-                            'symbol' => $position['symbol'],
-                            'trader_id' => Trader::where('uid', $trader->uid)->first()->id,
-                            'entryPrice' => $position['entryPrice'],
-                            'markPrice' => $position['markPrice'],
-                            'type' => $type,
-                            'roe' => $position['roe'],
-                            'leverage' => $position['leverage'],
-                            'amount' => $position['amount'],
-                            'yellow' => $position['yellow'],
-                            'existe' => 1,
-                            'updateTime' => $position['updateTime'][0] . '/' . $position['updateTime'][1] . '/' . $position['updateTime'][2] . ' ' . $position['updateTime'][3] . ':' . $position['updateTime'][4] . ':' . $position['updateTime'][5],
-                        ]);
+                                ));
+                            // CREER LA POSITION EN BDD
+                            Positions::create([
+                                'symbol' => $position['symbol'],
+                                'trader_id' => Trader::where('uid', $trader->uid)->first()->id,
+                                'entryPrice' => $position['entryPrice'],
+                                'markPrice' => $position['markPrice'],
+                                'type' => $type,
+                                'roe' => $position['roe'],
+                                'leverage' => $position['leverage'],
+                                'amount' => $position['amount'],
+                                'yellow' => $position['yellow'],
+                                'existe' => 1,
+                                'updateTime' => $position['updateTime'][0] . '/' . $position['updateTime'][1] . '/' . $position['updateTime'][2] . ' ' . $position['updateTime'][3] . ':' . $position['updateTime'][4] . ':' . $position['updateTime'][5],
+                            ]);
+                        }
                     }
                 }
             } else {
