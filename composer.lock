@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63b5d0744085afe7b6a29bc0db17c8be",
+    "content-hash": "bf417945c5a15fdfeca794b93d274e05",
     "packages": [
         {
             "name": "brick/math",
@@ -1676,6 +1676,57 @@
                 }
             ],
             "time": "2022-04-17T13:12:02+00:00"
+        },
+        {
+            "name": "linwj/bybit",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zhouaini528/bybit-php.git",
+                "reference": "25928cab5ebef80af59ece946bdddd10711f4a0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zhouaini528/bybit-php/zipball/25928cab5ebef80af59ece946bdddd10711f4a0e",
+                "reference": "25928cab5ebef80af59ece946bdddd10711f4a0e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "*",
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lin\\Bybit\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "linwenjun",
+                    "email": "465382251@qq.com"
+                }
+            ],
+            "description": "Bybit API Like the official document interface, Support for arbitrary extension.",
+            "keywords": [
+                "BitMEX",
+                "Huobi",
+                "OKEX",
+                "binance",
+                "bybit",
+                "crex24",
+                "kucoin",
+                "kumex"
+            ],
+            "support": {
+                "issues": "https://github.com/zhouaini528/bybit-php/issues",
+                "source": "https://github.com/zhouaini528/bybit-php/tree/1.0.7"
+            },
+            "time": "2022-11-05T00:18:52+00:00"
         },
         {
             "name": "monolog/monolog",

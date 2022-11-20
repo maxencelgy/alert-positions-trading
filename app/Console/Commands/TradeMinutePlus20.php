@@ -105,9 +105,6 @@ class TradeMinutePlus20 extends Command
  ' . $emoji . ' Trade: ' . $type . ''
                                     ));
                             }
-                            // CREER LA POSITION EN BDD
-                            // ON DELETE L'ANCIENNE POSITION
-                            $positionExistant->delete();
                             // ON CREE LA NOUVELLE POSITION
                             Positions::create([
                                 'symbol' => $position['symbol'],
@@ -122,6 +119,8 @@ class TradeMinutePlus20 extends Command
                                 'existe' => 1,
                                 'updateTime' => $position['updateTime'][0] . '/' . $position['updateTime'][1] . '/' . $position['updateTime'][2] . ' ' . $position['updateTime'][3] . ':' . $position['updateTime'][4] . ':' . $position['updateTime'][5],
                             ]);
+                            // ON DELETE L'ANCIENNE POSITION
+                            $positionExistant->delete();
                         }else {
                             // ON VERIFIE SI LE TRADE EST UN SHORT OU LONG
                             if ($position['amount'] < 0) {
@@ -252,6 +251,5 @@ class TradeMinutePlus20 extends Command
                 }
             }
         }
-
     }
 }
