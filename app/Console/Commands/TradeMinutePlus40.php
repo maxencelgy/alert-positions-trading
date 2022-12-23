@@ -84,26 +84,26 @@ class TradeMinutePlus40 extends Command
                             if ($position['amount'] > $amount) {
                                 // LE TRADER A RAJOUTER DU CAPITAL
                                 // ENVOYER UNE NOTIFICATION TELEGRAM TRADER A RAJOUTER DU CAPITAL
-                                Notification::route('telegram', '-801413501')
-                                    ->notify(new SendNotification(
-                                        '🚨Update du trade RAJOUTE DE L\'ARGENT🚨
- RAJOUTE : ' . $differencePourcent . '%
- 👑Trader: ' . Trader::where('uid', $trader->uid)->first()->name . '
- 🚀Crypto: ' . $position['symbol'] . '
- ' . $emoji . ' Trade: ' . $type . ''
-                                    ));
+//                                Notification::route('telegram', '-801413501')
+//                                    ->notify(new SendNotification(
+//                                        '🚨Update du trade RAJOUTE DE L\'ARGENT🚨
+// RAJOUTE : ' . $differencePourcent . '%
+// 👑Trader: ' . Trader::where('uid', $trader->uid)->first()->name . '
+// 🚀Crypto: ' . $position['symbol'] . '
+// ' . $emoji . ' Trade: ' . $type . ''
+//                                    ));
                             } else {
                                 // LE TRADER A PRIS UN STOP LOSS OU UN TAKE PROFIT
                                 // ENVOYER UNE NOTIFICATION TELEGRAM TRADER A PRIS UN STOP LOSS OU UN TAKE PROFIT
-                                Notification::route('telegram', '-801413501')
-                                    ->notify(new SendNotification(
-                                        '🚨Update du trade RETIRE DE L\'ARGENT🚨
- TP OU SL DE: ' . $differencePourcent . '%
-
- 👑Trader: ' . Trader::where('uid', $trader->uid)->first()->name . '
- 🚀Crypto: ' . $position['symbol'] . '
- ' . $emoji . ' Trade: ' . $type . ''
-                                    ));
+//                                Notification::route('telegram', '-801413501')
+//                                    ->notify(new SendNotification(
+//                                        '🚨Update du trade RETIRE DE L\'ARGENT🚨
+// TP OU SL DE: ' . $differencePourcent . '%
+//
+// 👑Trader: ' . Trader::where('uid', $trader->uid)->first()->name . '
+// 🚀Crypto: ' . $position['symbol'] . '
+// ' . $emoji . ' Trade: ' . $type . ''
+//                                    ));
                             }
                             // ON CREE LA NOUVELLE POSITION
                             Positions::create([
